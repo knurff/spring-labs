@@ -2,14 +2,11 @@ package com.example.springlabs.services;
 
 import com.example.springlabs.model.Category;
 import com.example.springlabs.repositories.CategoryRepository;
-import com.example.springlabs.repositories.CategoryRepositoryImpl;
-import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryService {
