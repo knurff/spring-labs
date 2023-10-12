@@ -4,12 +4,11 @@ import com.example.springlabs.model.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository{
-    private List<Product> products;
+    private final List<Product> products;
 
     public ProductRepositoryImpl(ArrayList<Product> products) {
         this.products = products;
@@ -31,9 +30,7 @@ public class ProductRepositoryImpl implements ProductRepository{
     }
     @Override
     public void updateProduct(Product updatedProduct) {
-        Iterator<Product> iterator = products.iterator();
-        while (iterator.hasNext()) {
-            Product product = iterator.next();
+        for (Product product : products) {
             if (product.getId() == updatedProduct.getId()) {
                 product.setName(updatedProduct.getName());
                 product.setPrice(updatedProduct.getPrice());

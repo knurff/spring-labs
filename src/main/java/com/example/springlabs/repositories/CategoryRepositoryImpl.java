@@ -4,11 +4,10 @@ import com.example.springlabs.model.Category;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 @Repository
 public class CategoryRepositoryImpl implements CategoryRepository {
-    private ArrayList<Category> categories;
+    private final ArrayList<Category> categories;
 
     public CategoryRepositoryImpl(ArrayList<Category> categories) {
         this.categories = categories;
@@ -34,9 +33,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public ArrayList<Category> updateCategories(Category updatedCategory) {
-        Iterator<Category> iterator = categories.iterator();
-        while (iterator.hasNext()) {
-            Category category = iterator.next();
+        for (Category category : categories) {
             if (category.getId() == updatedCategory.getId()) {
                 category.setName(updatedCategory.getName());
                 category.setParentCategory(updatedCategory.getParentCategory());
@@ -47,9 +44,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
     @Override
     public void updateCategory(int id, String newName, Category newParentCategory) {
-        Iterator<Category> iterator = categories.iterator();
-        while (iterator.hasNext()) {
-            Category category = iterator.next();
+        for (Category category : categories) {
             if (category.getId() == id) {
                 category.setName(newName);
                 category.setParentCategory(newParentCategory);

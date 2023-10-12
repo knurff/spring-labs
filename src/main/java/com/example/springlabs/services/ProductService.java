@@ -2,6 +2,7 @@ package com.example.springlabs.services;
 
 import com.example.springlabs.model.Product;
 import com.example.springlabs.repositories.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

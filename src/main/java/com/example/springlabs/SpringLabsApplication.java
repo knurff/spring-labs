@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringLabsApplication {
 
   public static void main(String[] args) {
-    var context = SpringApplication.run(SpringLabsApplication.class, args);
+    SpringApplication.run(SpringLabsApplication.class, args);
   }
 
 }
