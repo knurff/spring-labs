@@ -4,6 +4,7 @@ import com.example.springlabs.model.Category;
 import com.example.springlabs.model.Product;
 import com.example.springlabs.services.CategoryService;
 import com.example.springlabs.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +14,12 @@ import java.util.List;
 
 @Controller
 public class StoreController {
-    private final ProductService productService;
-    private final CategoryService categoryService;
 
-    public StoreController(ProductService productService, CategoryService categoryService) {
-        this.productService = productService;
-        this.categoryService = categoryService;
-    }
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping("/")
     public String home(Model model) {
