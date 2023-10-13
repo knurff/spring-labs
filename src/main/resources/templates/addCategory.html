@@ -66,15 +66,12 @@
 <h1>Create a Category</h1>
 <form action="/createCategory" method="post">
     <label for="categoryId">Id:</label>
-    <input type="number" id="categoryId" name="categoryId" required th:value="${categoryId}">
+    <input type="number" id="categoryId" name="categoryId" required>
     <br>
     <label for="categoryName">Name:</label>
-    <input type="text" id="categoryName" name="categoryName" required th:value="${categoryName}">
+    <input type="text" id="categoryName" name="categoryName" required>
     <br>
     <label for="categorySelect">Parent category:</label>
-<!--    <select id="categorySelect" name="categorySelect">-->
-<!--        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>-->
-<!--    </select>-->
     <select id="categorySelect" name="categorySelect">
         <option value="">None</option>
         <th:block th:each="category : ${categories}">
