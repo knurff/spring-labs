@@ -2,6 +2,8 @@ package com.example.springlabs.model;
 
 import lombok.*;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @ToString
@@ -14,4 +16,5 @@ public class User {
     private String email;
     private String password;
     private boolean isAdmin;
+    private Set<Organization> organizations;
 }

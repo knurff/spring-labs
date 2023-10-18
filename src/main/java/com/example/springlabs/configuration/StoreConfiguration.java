@@ -18,9 +18,9 @@ public class StoreConfiguration {
         Category category3 = new Category(3, "Холодильники", category2, new ArrayList<>());
 
         // Створюємо товари
-        Product product1 = new Product(1, "BOSCH KGN39VI306", 1000.0, category3);
+        Product product1 = new Product(1, "BOSCH KGN39VI306", 1000.0, null, category3);
         category3.getProducts().add(product1);
-        Product product2 = new Product(2, "BOSH KGN39VI306", 1000.0, category3);
+        Product product2 = new Product(2, "BOSH KGN39VI306", 1000.0, null, category3);
         category3.getProducts().add(product2);
 
         // Створюємо список категорій

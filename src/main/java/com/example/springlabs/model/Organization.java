@@ -2,18 +2,16 @@ package com.example.springlabs.model;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
-public class Product {
+public class Organization {
     private long id;
     private String name;
-    private double price;
-    private Organization seller;
-    private Category category;
+    private User creator;
+    private List<Product> products;
 }
-
-
