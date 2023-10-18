@@ -7,12 +7,11 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
-public class Product {
+public class User {
     private long id;
     private String name;
-    private double price;
-    private Category category;
+    private String surname;
+    private String email;
+    private String password;
+    private boolean isAdmin;
 }
-
-

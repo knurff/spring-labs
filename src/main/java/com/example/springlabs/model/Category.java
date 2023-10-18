@@ -1,12 +1,9 @@
 package com.example.springlabs.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,9 +12,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category {
-    private int id;
+    private long id;
     private String name;
     private Category parentCategory;
+    private List<Product> products;
 
     public Category(int id, String name) {
         this.id = id;
