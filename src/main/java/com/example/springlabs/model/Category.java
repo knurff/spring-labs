@@ -4,6 +4,7 @@ package com.example.springlabs.model;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -12,13 +13,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category {
-    private long id;
+    private static long nextId = 0; // temporary solution for id generation
+    private long id = nextId++;
     private String name;
-    private Category parentCategory;
+    private Set<Category> subCategories;
     private List<Product> products;
 
-    public Category(int id, String name) {
-        this.id = id;
+    public Category(String name) {
         this.name = name;
     }
 }
