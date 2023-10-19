@@ -52,7 +52,7 @@ public class StoreController {
         } else {
             int parentCategoryId = Integer.parseInt(parentCategoryIdSt);
             Category parentCategory = categoryService.getCategoryById(parentCategoryId);
-            Category category = new Category(id, name, parentCategory);
+            Category category = new Category(id, name, parentCategory, new ArrayList<>());
             model.addAttribute("categories", categoryService.addCategory(category));
         }
 
