@@ -30,8 +30,6 @@ public class StoreConfiguration {
         // Створюємо список категорій
         ArrayList<Category> categories = new ArrayList<>();
         categories.add(category1);
-//        categories.add(category2);
-//        categories.add(category3);
 
         return categories;
     }
