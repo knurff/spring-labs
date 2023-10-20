@@ -17,6 +17,7 @@ import java.util.List;
 @Controller
 public class StoreController {
 
+
     @Autowired
     private ProductService productService;
 
