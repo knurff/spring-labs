@@ -13,9 +13,13 @@ public class StoreConfiguration {
     @Bean
     ArrayList<Category> categories() {
         // Створюємо категорії
-        Category category1 = new Category(1, "Побутова техніка");
-        Category category2 = new Category(2, "Велика побутова техніка", category1, new ArrayList<>());
-        Category category3 = new Category(3, "Холодильники", category2, new ArrayList<>());
+        Category category4 = new Category("Кондиціонери");
+        Category category3 = new Category("Холодильники");
+        Category category2 = new Category("Велика побутова техніка");
+        category2.getSubCategories().add(category4);
+        category2.getSubCategories().add(category3);
+        Category category1 = new Category("Побутова техніка");
+        category1.getSubCategories().add(category2);
 
         // Створюємо товари
         Product product1 = new Product(1, "BOSCH KGN39VI306", 1000.0, category3);
@@ -26,8 +30,6 @@ public class StoreConfiguration {
         // Створюємо список категорій
         ArrayList<Category> categories = new ArrayList<>();
         categories.add(category1);
-        categories.add(category2);
-        categories.add(category3);
 
         return categories;
     }

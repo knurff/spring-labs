@@ -33,23 +33,23 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public ArrayList<Category> updateCategories(Category updatedCategory) {
-        for (Category category : categories) {
-            if (category.getId() == updatedCategory.getId()) {
-                category.setName(updatedCategory.getName());
-                category.setParentCategory(updatedCategory.getParentCategory());
-                return categories;
-            }
-        }
+//        for (Category category : categories) {
+//            if (category.getId() == updatedCategory.getId()) {
+//                category.setName(updatedCategory.getName());
+//                category.setParentCategory(updatedCategory.getParentCategory());
+//                return categories;
+//            }
+//        }
         return categories;
     }
     @Override
     public void updateCategory(int id, String newName, Category newParentCategory) {
-        for (Category category : categories) {
-            if (category.getId() == id) {
-                category.setName(newName);
-                category.setParentCategory(newParentCategory);
-            }
-        }
+//        for (Category category : categories) {
+//            if (category.getId() == id) {
+//                category.setName(newName);
+//                category.setParentCategory(newParentCategory);
+//            }
+//        }
     }
     @Override
     public void deleteCategoryById(int id) {

@@ -1,0 +1,8 @@
+<section th:fragment="category">
+  <ul>
+    <li th:each="cat : ${categories}">
+      <span th:text="${cat.name}"></span>
+      <section th:insert="~{this :: category}" th:with="categories=${cat.subCategories}"></section>
+    </li>
+  </ul>
+</section>

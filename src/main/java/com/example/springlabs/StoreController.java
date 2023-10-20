@@ -7,7 +7,9 @@ import com.example.springlabs.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,20 +41,18 @@ public class StoreController {
 
     @PostMapping("/createCategory")
     public String createCategory(
-            @RequestParam("categoryId") String idSt,
             @RequestParam("categoryName") String name,
             @RequestParam("categorySelect") String parentCategoryIdSt,
             Model model
     ) {
-        int id = Integer.parseInt(idSt);
-
         if (parentCategoryIdSt.isEmpty()) {
-            Category category = new Category(id, name);
+            Category category = new Category(name);
             model.addAttribute("categories", categoryService.addCategory(category));
         } else {
             int parentCategoryId = Integer.parseInt(parentCategoryIdSt);
             Category parentCategory = categoryService.getCategoryById(parentCategoryId);
-            Category category = new Category(id, name, parentCategory, new ArrayList<>());
+            Category category = new Category(name);
+            parentCategory.getSubCategories().add(category);
             model.addAttribute("categories", categoryService.addCategory(category));
         }
 

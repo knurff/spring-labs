@@ -63,11 +63,8 @@
 <!-- Ліва колонка з категоріями -->
 <div class="category-list">
     <h2>Категорії</h2>
-    <div class="category-container">
-        <ul>
-            <li class="category-item" th:each="category : ${categories}">
-                <span th:text="${category.name}"></span>
-        </ul>
+    <div class="category-container" th:insert="~{fragments/category.html :: category}"
+         th:with="categories=${categories}">
     </div>
     <a href="addCategory" class="blue-button">Додати нову категорію</a>
 </div>

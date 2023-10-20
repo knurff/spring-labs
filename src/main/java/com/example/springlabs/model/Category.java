@@ -3,7 +3,10 @@ package com.example.springlabs.model;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Getter
 @Setter
@@ -11,15 +14,20 @@ import java.util.List;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
-    private long id;
+public class Category implements Comparable<Category> {
+    private static long nextId = 0; // temporary solution for id generation
+    private long id = nextId++;
     private String name;
-    private Category parentCategory;
-    private List<Product> products;
+    private Set<Category> subCategories = new TreeSet<>();
+    private List<Product> products = new ArrayList<>();
 
-    public Category(int id, String name) {
-        this.id = id;
+    public Category(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int compareTo(Category o) {
+        return this.name.compareTo(o.name);
     }
 }
 
