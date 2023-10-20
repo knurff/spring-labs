@@ -7,19 +7,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 
 @Configuration
 public class StoreConfiguration {
     @Bean
     ArrayList<Category> categories() {
         // Створюємо категорії
-        Category category4 = new Category(4, "Кондиціонери", new LinkedHashSet<>(), new ArrayList<>());
-        Category category3 = new Category(3, "Холодильники", new LinkedHashSet<>(), new ArrayList<>());
-        Category category2 = new Category(2, "Велика побутова техніка", new LinkedHashSet<>(), new ArrayList<>());
+        Category category4 = new Category("Кондиціонери");
+        Category category3 = new Category("Холодильники");
+        Category category2 = new Category("Велика побутова техніка");
         category2.getSubCategories().add(category4);
         category2.getSubCategories().add(category3);
-        Category category1 = new Category(1, "Побутова техніка", new LinkedHashSet<>(), new ArrayList<>());
+        Category category1 = new Category("Побутова техніка");
         category1.getSubCategories().add(category2);
 
         // Створюємо товари
