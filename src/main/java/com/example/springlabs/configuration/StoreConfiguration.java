@@ -10,8 +10,14 @@ import java.util.ArrayList;
 
 @Configuration
 public class StoreConfiguration {
-    @Bean
-    ArrayList<Category> categories() {
+
+    private final ArrayList<Category> categories;
+    private final ArrayList<Product> products;
+
+    public StoreConfiguration() {
+        this.categories = new ArrayList<>();
+        this.products = new ArrayList<>();
+
         // Створюємо категорії
         Category category4 = new Category("Кондиціонери");
         Category category3 = new Category("Холодильники");
@@ -19,6 +25,7 @@ public class StoreConfiguration {
         category2.getSubCategories().add(category4);
         category2.getSubCategories().add(category3);
         Category category1 = new Category("Побутова техніка");
+        Category category5 = new Category("<h1>xss test</h1>");
         category1.getSubCategories().add(category2);
 
         // Створюємо товари
@@ -28,10 +35,21 @@ public class StoreConfiguration {
         category3.getProducts().add(product2);
 
         // Створюємо список категорій
-        ArrayList<Category> categories = new ArrayList<>();
         categories.add(category1);
+        categories.add(category5);
 
+        // Створюємо список товарів
+        products.add(product1);
+        products.add(product2);
+    }
+
+    @Bean
+    ArrayList<Category> categories() {
         return categories;
     }
 
+    @Bean
+    ArrayList<Product> products() {
+        return products;
+    }
 }

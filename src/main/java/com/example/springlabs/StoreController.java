@@ -28,7 +28,7 @@ public class StoreController {
         List<Product> products = productService.getAllProducts();
         ArrayList<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
-//        model.addAttribute("products", products);
+        model.addAttribute("products", products);
         return "index";
     }
 
