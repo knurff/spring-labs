@@ -59,7 +59,8 @@
 </head>
 <body>
 <h1>Магазин товарів</h1>
-
+<!--online/offline depending on time. If time < and > then online else offline-->
+<!---->
 <!-- Ліва колонка з категоріями -->
 <div class="category-list">
     <h2>Категорії</h2>
@@ -70,20 +71,31 @@
 </div>
 
 <!-- Права колонка з товарами -->
-<div class="product-container">
-    <h2>Товари</h2>
-    <div class="product-item">
-        <h3>Назва товару 1</h3>
-        <p>Опис товару 1.</p>
-        <p>Ціна: $100</p>
-    </div>
+<!--<div class="product-container">-->
+<!--    <h2>Товари</h2>-->
+<!--    <div class="product-item">-->
+<!--        <h3>Назва товару 1</h3>-->
+<!--        <p>Опис товару 1.</p>-->
+<!--        <p>Ціна: $100</p>-->
+<!--    </div>-->
 
-    <div class="product-item">
-        <h3>Назва товару 2</h3>
-        <p>Опис товару 2.</p>
-        <p>Ціна: $150</p>
+<!--    <div class="product-item">-->
+<!--        <h3>Назва товару 2</h3>-->
+<!--        <p>Опис товару 2.</p>-->
+<!--        <p>Ціна: $150</p>-->
+<!--    </div>-->
+<div th:switch="${#lists.size(products)}" class="product-container">
+    <h2 th:case="0" th:text="'Товари відсутні :('"></h2>
+    <div th:case="1" class="product-item">
+        <h3 th:text="${products[0].name}"></h3>
     </div>
-
+    <div th:case="*">
+        <h2>Товари</h2>
+        <div th:each="product:${products}" class="product-item">
+            <h3 th:text="${product.name}"></h3>
+        </div>
+    </div>
 </div>
+
 </body>
 </html>
