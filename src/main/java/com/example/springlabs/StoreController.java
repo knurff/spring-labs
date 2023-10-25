@@ -82,7 +82,7 @@ public class StoreController {
     }
 
     @PostMapping("/pageOfAll")
-    public String deleteCreateAuthor(
+    public String deleteсategory(
             @RequestParam("categoryId") String idSt,
             @RequestParam("categoryName") String name,
             @RequestParam("parentCategoryId") String parentCategoryIdSt,
@@ -97,7 +97,7 @@ public class StoreController {
     }
 
     @PostMapping("/deleteCategory")
-    public String deleteAuthor(
+    public String deleteCategory(
             @RequestParam("categoryId") String idSt,
             Model model
     ) {
