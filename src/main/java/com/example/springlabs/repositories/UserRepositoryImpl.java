@@ -20,12 +20,12 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public void deleteUserById(int id) {
+    public void deleteUserById(long id) {
         users.removeIf(user -> user.getId() == id);
     }
 
     @Override
-    public User getUserById(int id) {
+    public User getUserById(long id) {
         return users.stream()
                 .filter(user -> user.getId() == id)
                 .findFirst()
@@ -41,6 +41,7 @@ public class UserRepositoryImpl implements UserRepository{
                 user.setEmail(updatedUser.getEmail());
                 user.setPassword(updatedUser.getPassword());
                 user.setAdmin(updatedUser.isAdmin());
+                break;
             }
         }
     }

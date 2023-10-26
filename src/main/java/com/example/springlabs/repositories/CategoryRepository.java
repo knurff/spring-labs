@@ -9,11 +9,11 @@ public interface CategoryRepository {
 
     void addCategory(Category category);
 
-    Category getCategoryById(int id);
+    Category getCategoryById(long id);
 
     ArrayList<Category> updateCategories(Category updatedCategory);
 
-    void updateCategory(int id, String newName, Category newParentCategory);
+    void updateCategory(long id, String newName, Category newParentCategory);
 
-    void deleteCategoryById(int id);
+    void deleteCategoryById(long id);
 }

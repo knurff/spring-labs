@@ -18,11 +18,11 @@ public class UserService {
         return userRepository.getUsers();
     }
 
-    public User getUserById(int id) {
+    public User getUserById(long id) {
         return userRepository.getUserById(id);
     }
 
-    public List<User> deleteUserById(int id) {
+    public List<User> deleteUserById(long id) {
         userRepository.deleteUserById(id);
         return userRepository.getUsers();
     }

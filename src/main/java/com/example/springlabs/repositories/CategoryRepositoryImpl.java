@@ -24,7 +24,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public Category getCategoryById(int id) {
+    public Category getCategoryById(long id) {
         return categories.stream()
                 .filter(category -> category.getId() == id)
                 .findFirst()
@@ -43,7 +43,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         return categories;
     }
     @Override
-    public void updateCategory(int id, String newName, Category newParentCategory) {
+    public void updateCategory(long id, String newName, Category newParentCategory) {
 //        for (Category category : categories) {
 //            if (category.getId() == id) {
 //                category.setName(newName);
@@ -52,7 +52,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 //        }
     }
     @Override
-    public void deleteCategoryById(int id) {
+    public void deleteCategoryById(long id) {
         categories.removeIf(category -> category.getId() == id);
     }
 }
