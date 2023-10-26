@@ -53,7 +53,7 @@ public class StoreController {
             Category parentCategory = categoryService.getCategoryById(parentCategoryId);
             Category category = new Category(name);
             parentCategory.getSubCategories().add(category);
-            model.addAttribute("categories", categoryService.addCategory(category));
+            model.addAttribute("categories", categoryService.getAllCategories());
         }
 
         return "allCategories";
