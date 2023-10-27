@@ -18,11 +18,11 @@ public class ProductRepositoryImpl implements ProductRepository{
         return products;
     }
     @Override
-    public void deleteProductById(int id) {
+    public void deleteProductById(long id) {
         products.removeIf(product -> product.getId() == id);
     }
     @Override
-    public Product getProductById(int id) {
+    public Product getProductById(long id) {
         return products.stream()
                 .filter(product -> product.getId() == id)
                 .findFirst()

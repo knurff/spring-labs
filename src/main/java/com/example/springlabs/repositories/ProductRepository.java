@@ -8,9 +8,9 @@ public interface ProductRepository {
 
     List<Product> getProducts();
 
-    void deleteProductById(int id);
+    void deleteProductById(long id);
 
-    Product getProductById(int id);
+    Product getProductById(long id);
 
     void updateProduct(Product updatedProduct);
 

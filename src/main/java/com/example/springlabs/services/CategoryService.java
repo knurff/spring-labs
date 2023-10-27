@@ -22,17 +22,17 @@ public class CategoryService {
         return categoryRepository.getCategories();
     }
 
-    public Category getCategoryById(int id) {
+    public Category getCategoryById(long id) {
         return categoryRepository.getCategoryById(id);
     }
 
-    public List<Category> deleteCategoryById(int id) {
+    public List<Category> deleteCategoryById(long id) {
         categoryRepository.deleteCategoryById(id);
         return categoryRepository.getCategories();
     }
 
 
-    public List<Category> updateCategory(int id, String newName, Category newParentCategory){
+    public List<Category> updateCategory(long id, String newName, Category newParentCategory){
         categoryRepository.updateCategory(id, newName, newParentCategory);
         return categoryRepository.getCategories();
     }
