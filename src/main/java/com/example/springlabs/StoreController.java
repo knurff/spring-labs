@@ -53,7 +53,7 @@ public class StoreController {
             Category parentCategory = categoryService.getCategoryById(parentCategoryId);
             Category category = new Category(name);
             parentCategory.getSubCategories().add(category);
-            model.addAttribute("categories", categoryService.addCategory(category));
+            model.addAttribute("categories", categoryService.getAllCategories());
         }
 
         return "allCategories";
@@ -82,7 +82,7 @@ public class StoreController {
     }
 
     @PostMapping("/pageOfAll")
-    public String deleteCreateAuthor(
+    public String deleteсategory(
             @RequestParam("categoryId") String idSt,
             @RequestParam("categoryName") String name,
             @RequestParam("parentCategoryId") String parentCategoryIdSt,
@@ -97,7 +97,7 @@ public class StoreController {
     }
 
     @PostMapping("/deleteCategory")
-    public String deleteAuthor(
+    public String deleteCategory(
             @RequestParam("categoryId") String idSt,
             Model model
     ) {
