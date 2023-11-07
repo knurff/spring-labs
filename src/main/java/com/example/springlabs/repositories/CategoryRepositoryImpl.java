@@ -1,58 +1,67 @@
 package com.example.springlabs.repositories;
 
 import com.example.springlabs.model.Category;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-
 @Repository
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CategoryRepositoryImpl implements CategoryRepository {
-    private final ArrayList<Category> categories;
 
-    public CategoryRepositoryImpl(ArrayList<Category> categories) {
-        this.categories = categories;
-    }
+  List<Category> categories;
 
-    @Override
-    public ArrayList<Category> getCategories() {
-        return categories;
-    }
+  @Override
+  public List<Category> getCategories() {
+    return categories;
+  }
 
-    @Override
-    public void addCategory(Category category) {
-        categories.add(category);
-    }
+  @Override
+  public void addCategory(Category category) {
+    categories.add(category);
+  }
 
-    @Override
-    public Category getCategoryById(long id) {
-        return categories.stream()
-                .filter(category -> category.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
+  @Override
+  public Category getCategoryById(long id) {
+    return categories.stream()
+        .filter(category -> category.getId() == id)
+        .findFirst()
+        .orElse(null);
+  }
 
-    @Override
-    public ArrayList<Category> updateCategories(Category updatedCategory) {
-//        for (Category category : categories) {
-//            if (category.getId() == updatedCategory.getId()) {
-//                category.setName(updatedCategory.getName());
-//                category.setParentCategory(updatedCategory.getParentCategory());
-//                return categories;
-//            }
-//        }
-        return categories;
+  @Override
+  public Optional<Category> updateCategory(long id, Category newCategory,
+      Collection<Category> subcategories) {
+    Collection<? extends Category> categoriesToIterate =
+        subcategories.isEmpty() ? categories : subcategories;
+
+    for (Category category : categoriesToIterate) {
+      if (category.getId() == id) {
+        category.setName(newCategory.getName());
+        category.setSubCategories(newCategory.getSubCategories());
+        category.setProducts(newCategory.getProducts());
+        return Optional.of(category);
+      }
     }
-    @Override
-    public void updateCategory(long id, String newName, Category newParentCategory) {
-//        for (Category category : categories) {
-//            if (category.getId() == id) {
-//                category.setName(newName);
-//                category.setParentCategory(newParentCategory);
-//            }
-//        }
-    }
-    @Override
-    public void deleteCategoryById(long id) {
-        categories.removeIf(category -> category.getId() == id);
-    }
+    return Optional.empty();
+  }
+
+  @Override
+  public void deleteCategory(long id, Collection<Category> subcategories) {
+    Collection<? extends Category> categoriesToIterate =
+        subcategories.isEmpty() ? categories : subcategories;
+    categoriesToIterate.removeIf(category -> category.getId() == id);
+  }
+
+  @Override
+  public Optional<Category> getCategoryByName(String name) {
+    return categories.stream()
+        .filter(category -> category.getName().equals(name))
+        .findFirst();
+  }
 }

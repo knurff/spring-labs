@@ -1,0 +1,45 @@
+[
+  {
+    "id": 1,
+    "name": "a",
+    "subCategories": [
+      {
+        "id": 2,
+        "name": "b c d",
+        "subCategories": [
+          {
+            "id": 3,
+            "name": "c",
+            "subCategories": [],
+            "products": []
+          },
+          {
+            "id": 4,
+            "name": "d",
+            "subCategories": [],
+            "products": [
+              {
+                "id": 1,
+                "name": "e",
+                "price": 1000.0
+              },
+              {
+                "id": 2,
+                "name": "f",
+                "price": 1000.0
+              }
+            ]
+          }
+        ],
+        "products": []
+      }
+    ],
+    "products": []
+  },
+  {
+    "id": 6,
+    "name": "g",
+    "subCategories": [],
+    "products": []
+  }
+]

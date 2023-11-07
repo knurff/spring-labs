@@ -1,6 +1,11 @@
 package com.example.springlabs.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -9,7 +14,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    private long id;
+    private static long nextId = 1; // temporary solution for id generation
+    private long id = nextId++;
     private String name;
     private String surname;
     private String email;

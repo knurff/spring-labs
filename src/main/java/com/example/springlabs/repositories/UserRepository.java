@@ -1,7 +1,6 @@
 package com.example.springlabs.repositories;
 
 import com.example.springlabs.model.User;
-
 import java.util.List;
 
 public interface UserRepository {
