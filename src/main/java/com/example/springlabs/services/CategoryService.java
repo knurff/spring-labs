@@ -62,21 +62,21 @@ public class CategoryService {
 
     public Category updateCategory(List<String> categoriesNames, String stringId,
                                    Category categoryFromDto) {
-        try {
-            long id = Long.parseLong(stringId);
-            return categoryRepository.updateCategory(id, categoryFromDto, getSubcategories(categoriesNames))
-                    .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(stringId)));
-        } catch (NumberFormatException e) {
-            throw new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(stringId), e);
-        }
+      long id = saveParseId(stringId);
+      return categoryRepository.updateCategory(id, categoryFromDto, getSubcategories(categoriesNames))
+              .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(stringId)));
     }
 
   public void deleteCategory(List<String> categoriesNames, String stringId) {
+      long id = saveParseId(stringId);
+      categoryRepository.deleteCategory(id, getSubcategories(categoriesNames));
+  }
+
+  private long saveParseId(String s) {
       try {
-          long id = Long.parseLong(stringId);
-          categoryRepository.deleteCategory(id, getSubcategories(categoriesNames));
+          return Long.parseLong(s);
       } catch (NumberFormatException e) {
-          throw new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(stringId), e);
+          throw new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(s), e);
       }
   }
 }
