@@ -42,8 +42,8 @@ public class CategoryController {
 
   @GetMapping("/**")
   public Collection<CategoryDto> getSubcategories(HttpServletRequest request) {
-    List<String> categoriesNames = getCategoriesNames(request);
-    return categoryDtoMapper.createDtosSet(categoryService.getSubcategories(categoriesNames));
+    List<String> urlComponents = getUrlComponents(request);
+    return categoryDtoMapper.createDtosSet(categoryService.getSubcategories(urlComponents));
   }
 
   @PostMapping
@@ -57,9 +57,9 @@ public class CategoryController {
   @ResponseStatus(HttpStatus.CREATED)
   public CategoryDto addSubcategory(HttpServletRequest request,
       @RequestBody CategoryDto categoryDto) {
-    List<String> categoriesNames = getCategoriesNames(request);
+    List<String> urlComponents = getUrlComponents(request);
     return categoryDtoMapper.createDto(
-        categoryService.addSubcategory(categoriesNames,
+        categoryService.addSubcategory(urlComponents,
             categoryDtoMapper.createCategoryFromDto(categoryDto)));
   }
 
@@ -67,22 +67,22 @@ public class CategoryController {
   @ResponseStatus(HttpStatus.OK)
   public CategoryDto updateCategory(HttpServletRequest request,
       @RequestBody CategoryDto categoryDto) {
-    List<String> categoriesNames = new ArrayList<>(getCategoriesNames(request));
-    String id = categoriesNames.remove(categoriesNames.size() - 1);
+    List<String> urlComponents = new ArrayList<>(getUrlComponents(request));
+    String id = urlComponents.remove(urlComponents.size() - 1);
     return categoryDtoMapper.createDto(
-        categoryService.updateCategory(categoriesNames, Long.parseLong(id),
+        categoryService.updateCategory(urlComponents, Long.parseLong(id),
             categoryDtoMapper.createCategoryFromDto(categoryDto)));
   }
 
   @DeleteMapping("/**")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteCategory(HttpServletRequest request) {
-    List<String> categoriesNames = new ArrayList<>(getCategoriesNames(request));
-    String id = categoriesNames.remove(categoriesNames.size() - 1);
-        categoryService.deleteCategory(categoriesNames, Long.parseLong(id));
+    List<String> urlComponents = new ArrayList<>(getUrlComponents(request));
+    String id = urlComponents.remove(urlComponents.size() - 1);
+        categoryService.deleteCategory(urlComponents, Long.parseLong(id));
   }
 
-  private List<String> getCategoriesNames(HttpServletRequest request) {
+  private List<String> getUrlComponents(HttpServletRequest request) {
     return Arrays.stream(new AntPathMatcher().extractPathWithinPattern(
                 request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE).toString(),
                 URLDecoder.decode(
