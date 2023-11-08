@@ -14,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    private static long nextId = 1; // temporary solution for id generation
+    private static long nextId = 10; // temporary solution for id generation
     private long id = nextId++;
     private String name;
     private String surname;

@@ -28,8 +28,6 @@ public class StoreConfiguration {
 
     @Value("${path.users}")
     String pathUsers;
-    List<Category> categories;
-    List<User> users;
 
     @SneakyThrows
     @Bean

@@ -4,10 +4,10 @@ import com.example.springlabs.model.Product;
 import java.util.List;
 import java.util.Set;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 @Builder
-@Getter
+@Data
 public class CategoryDto {
   private long id;
   private String name;
