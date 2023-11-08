@@ -41,9 +41,9 @@ public class CategoryController {
   }
 
   @GetMapping("/**")
-  public Collection<CategoryDto> getSubcategories(HttpServletRequest request) {
+  public CategoryDto getCategory(HttpServletRequest request) {
     List<String> urlComponents = getUrlComponents(request);
-    return categoryDtoMapper.createDtosSet(categoryService.getSubcategories(urlComponents));
+    return categoryDtoMapper.createDto(categoryService.getCategoryByName(urlComponents));
   }
 
   @PostMapping
@@ -70,7 +70,7 @@ public class CategoryController {
     List<String> urlComponents = new ArrayList<>(getUrlComponents(request));
     String id = urlComponents.remove(urlComponents.size() - 1);
     return categoryDtoMapper.createDto(
-        categoryService.updateCategory(urlComponents, Long.parseLong(id),
+        categoryService.updateCategory(urlComponents, id,
             categoryDtoMapper.createCategoryFromDto(categoryDto)));
   }
 
@@ -79,7 +79,7 @@ public class CategoryController {
   public void deleteCategory(HttpServletRequest request) {
     List<String> urlComponents = new ArrayList<>(getUrlComponents(request));
     String id = urlComponents.remove(urlComponents.size() - 1);
-        categoryService.deleteCategory(urlComponents, Long.parseLong(id));
+        categoryService.deleteCategory(urlComponents, id);
   }
 
   private List<String> getUrlComponents(HttpServletRequest request) {

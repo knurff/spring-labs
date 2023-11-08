@@ -1,4 +1,4 @@
-package com.example.springlabs.exceptions;
+package com.example.springlabs.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +12,6 @@ public class ApplicationExceptionHandler {
   public ResponseEntity<ExceptionResponse> handleCategoryNotFoundException(
       CategoryNotFoundException e) {
     return new ResponseEntity<>(new ExceptionResponse(e.getMessage()), HttpStatus.NOT_FOUND);
-  }
-
-  @ExceptionHandler
-  public ResponseEntity<ExceptionResponse> handleNumberFormatException(
-      NumberFormatException e) {
-    return new ResponseEntity<>(new ExceptionResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
   }
 
 }

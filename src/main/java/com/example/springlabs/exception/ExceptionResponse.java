@@ -1,4 +1,4 @@
-package com.example.springlabs.exceptions;
+package com.example.springlabs.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
