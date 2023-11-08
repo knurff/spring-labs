@@ -9,7 +9,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.List;
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StoreConfiguration {
 
