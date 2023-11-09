@@ -58,8 +58,7 @@ public class CategoryController {
   @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "Successful returned category",
                   content = @Content(schema = @Schema(implementation = CategoryDto.class))),
-          @ApiResponse(responseCode = "400", description = "Invalid category or request data", content = @Content),
-          @ApiResponse(responseCode = "404", description = "Category not found", content = @Content)
+          @ApiResponse(responseCode = "404", description = "Category not found by name", content = @Content)
   })
   @GetMapping("/**")
   public CategoryDto getCategory(HttpServletRequest request) {
@@ -84,7 +83,7 @@ public class CategoryController {
           @ApiResponse(responseCode = "201", description = "New subcategory for the specified category created",
                   content = @Content(schema = @Schema(implementation = CategoryDto.class))),
           @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
-          @ApiResponse(responseCode = "404", description = "Parent category is not found", content = @Content)
+          @ApiResponse(responseCode = "404", description = "Parent category is not found by name", content = @Content)
   })
   @PostMapping("/**")
   @ResponseStatus(HttpStatus.CREATED)
@@ -101,7 +100,7 @@ public class CategoryController {
           @ApiResponse(responseCode = "200", description = "Category updated",
                   content = @Content(schema = @Schema(implementation = CategoryDto.class))),
           @ApiResponse(responseCode = "400", description = "Invalid category or request data", content = @Content),
-          @ApiResponse(responseCode = "404", description = "Category is not found", content = @Content)
+          @ApiResponse(responseCode = "404", description = "Category is not found by id", content = @Content)
   })
   @PutMapping("/**")
   @ResponseStatus(HttpStatus.OK)
@@ -115,7 +114,9 @@ public class CategoryController {
   }
 
   @Operation(summary = "Delete a category", description = "Deletes an existing category.")
-  @ApiResponse(responseCode = "204", description = "Category was successfully deleted")
+  @ApiResponses({
+          @ApiResponse(responseCode = "204", description = "Category was successfully deleted"),
+          @ApiResponse(responseCode = "404", description = "Category is not found by id")})
   @DeleteMapping("/**")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteCategory(HttpServletRequest request) {
