@@ -20,6 +20,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +32,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.HandlerMapping;
 
-@Tag(name = "Category", description = "The Category API")
+@Tag(name = "Category", description = "Operations related to categories")
 @RestController
-@RequestMapping("/categories")
+@RequestMapping(value = "/categories",  produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CategoryController {
@@ -44,8 +45,8 @@ public class CategoryController {
 
   @Operation(summary = "Get all categories", description = "Returns a list of all categories.")
   @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "Successful given categories", content = {
-                  @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))}),
+          @ApiResponse(responseCode = "200", description = "Successful given categories",
+                  content = @Content(schema = @Schema(implementation = CategoryDto.class))),
           @ApiResponse(responseCode = "404", description = "Categories are not found", content = @Content)
   })
   @GetMapping
@@ -55,8 +56,8 @@ public class CategoryController {
 
   @Operation(summary = "Get a category by name", description = "Returns a category by its name.")
   @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "Successful returned category", content = {
-                  @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))}),
+          @ApiResponse(responseCode = "200", description = "Successful returned category",
+                  content = @Content(schema = @Schema(implementation = CategoryDto.class))),
           @ApiResponse(responseCode = "400", description = "Invalid category or request data", content = @Content),
           @ApiResponse(responseCode = "404", description = "Category not found", content = @Content)
   })
@@ -68,8 +69,7 @@ public class CategoryController {
 
   @Operation(summary = "Add a new category", description = "Creates a new category.")
   @ApiResponses(value = {
-          @ApiResponse(responseCode = "201", description = "A new category created", content = {
-                  @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))}),
+          @ApiResponse(responseCode = "201", description = "A new category created", content = @Content(schema = @Schema(implementation = CategoryDto.class))),
           @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content)
   })
   @PostMapping
@@ -81,8 +81,8 @@ public class CategoryController {
 
   @Operation(summary = "Add a subcategory to a category", description = "Creates a new subcategory for the specified category.")
   @ApiResponses(value = {
-          @ApiResponse(responseCode = "201", description = "New subcategory for the specified category created", content = {
-                  @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))}),
+          @ApiResponse(responseCode = "201", description = "New subcategory for the specified category created",
+                  content = @Content(schema = @Schema(implementation = CategoryDto.class))),
           @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
           @ApiResponse(responseCode = "404", description = "Parent category is not found", content = @Content)
   })
@@ -98,8 +98,8 @@ public class CategoryController {
 
   @Operation(summary = "Update a category", description = "Updates an existing category.")
   @ApiResponses({
-          @ApiResponse(responseCode = "200", description = "Category updated", content = {
-                  @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))}),
+          @ApiResponse(responseCode = "200", description = "Category updated",
+                  content = @Content(schema = @Schema(implementation = CategoryDto.class))),
           @ApiResponse(responseCode = "400", description = "Invalid category or request data", content = @Content),
           @ApiResponse(responseCode = "404", description = "Category is not found", content = @Content)
   })
@@ -115,9 +115,7 @@ public class CategoryController {
   }
 
   @Operation(summary = "Delete a category", description = "Deletes an existing category.")
-  @ApiResponses({
-          @ApiResponse(responseCode = "204", description = "Category was successfully deleted"),
-          @ApiResponse(responseCode = "404", description = "Category is not found")})
+  @ApiResponse(responseCode = "204", description = "Category was successfully deleted")
   @DeleteMapping("/**")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteCategory(HttpServletRequest request) {
