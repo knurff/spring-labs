@@ -1,19 +1,21 @@
 package com.example.springlabs.repositories;
 
 import com.example.springlabs.model.Category;
-
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public interface CategoryRepository {
-    ArrayList<Category> getCategories();
+    List<Category> getCategories();
 
     void addCategory(Category category);
 
     Category getCategoryById(long id);
 
-    ArrayList<Category> updateCategories(Category updatedCategory);
+    Optional<Category> updateCategory(long id, Category newCategory,
+        Collection<Category> subcategories);
 
-    void updateCategory(long id, String newName, Category newParentCategory);
+    void deleteCategory(long id, Collection<Category> subcategories);
 
-    void deleteCategoryById(long id);
+    Optional<Category> getCategoryByName(String name);
 }

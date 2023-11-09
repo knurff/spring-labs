@@ -1,18 +1,17 @@
 package com.example.springlabs.repositories;
 
 import com.example.springlabs.model.User;
+import java.util.List;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Repository
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserRepositoryImpl implements UserRepository{
-    private final List<User> users;
-
-    public UserRepositoryImpl(ArrayList<User> users) {
-        this.users = users;
-    }
+    List<User> users;
 
     @Override
     public List<User> getUsers() {

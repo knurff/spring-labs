@@ -1,18 +1,26 @@
 package com.example.springlabs.model;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
 public class Product {
-    private long id;
+    private static long nextId = 10; // temporary solution for id generation
+    private long id = nextId++;
     private String name;
     private double price;
-    private Category category;
+
+    public Product(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
 }
 
 
