@@ -44,11 +44,8 @@ public class CategoryController {
   CategoryDtoMapper categoryDtoMapper;
 
   @Operation(summary = "Get all categories", description = "Returns a list of all categories.")
-  @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "Successful given categories",
-                  content = @Content(schema = @Schema(implementation = CategoryDto.class))),
-          @ApiResponse(responseCode = "404", description = "Categories are not found", content = @Content)
-  })
+  @ApiResponse(responseCode = "200", description = "Successful given categories",
+          content = @Content(schema = @Schema(implementation = CategoryDto.class)))
   @GetMapping
   public Collection<CategoryDto> getAll() {
     return categoryDtoMapper.createDtosSet(categoryService.getAllCategories());
