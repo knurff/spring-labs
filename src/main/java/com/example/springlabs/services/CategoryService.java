@@ -79,5 +79,13 @@ public class CategoryService {
           throw new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(s), e);
       }
   }
+
+    public Collection<Category> getAllCategories(int page, int size, String name) {
+        Collection<Category> categories = getAllCategories().stream().filter(c -> c.getName().contains(name)).toList();
+        if (size > 0 && page >= 0)
+            return categories.stream().skip((long) page * size).limit(size).toList();
+        else
+            return categories;
+    }
 }
 
