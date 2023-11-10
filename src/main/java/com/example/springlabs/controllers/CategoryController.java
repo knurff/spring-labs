@@ -4,6 +4,7 @@ import com.example.springlabs.controllers.dtos.CategoryDto;
 import com.example.springlabs.controllers.dtos.mappers.CategoryDtoMapper;
 import com.example.springlabs.services.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.HandlerMapping;
 
 @Tag(name = "Category", description = "Operations related to categories")
@@ -43,12 +45,18 @@ public class CategoryController {
 
   CategoryDtoMapper categoryDtoMapper;
 
-  @Operation(summary = "Get all categories", description = "Returns a list of all categories.")
+  @Operation(summary = "Get all categories", description = "Returns a list of all categories.", parameters = {
+          @Parameter(name = "page", description = "Page number starting from 0"),
+          @Parameter(name = "size", description = "Size of page"),
+          @Parameter(name = "name", description = "Value for filtering by category name")
+  })
   @ApiResponse(responseCode = "200", description = "Successful given categories",
           content = @Content(schema = @Schema(implementation = CategoryDto.class)))
   @GetMapping
-  public Collection<CategoryDto> getAll() {
-    return categoryDtoMapper.createDtosSet(categoryService.getAllCategories());
+  public Collection<CategoryDto> getAll(@RequestParam(value = "page", defaultValue = "0") int page,
+                                        @RequestParam(value = "size", defaultValue = "0") int size,
+                                        @RequestParam(value = "name", defaultValue = "") String name) {
+    return categoryDtoMapper.createDtosSet(categoryService.getAllCategories(page, size, name));
   }
 
   @Operation(summary = "Get a category by name", description = "Returns a category by its name.")
