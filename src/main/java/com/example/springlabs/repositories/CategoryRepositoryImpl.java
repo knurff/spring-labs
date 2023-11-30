@@ -28,13 +28,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public Category addCategory(Category category, Long parentId) {
         jdbcTemplate.update("insert into categories(name, parent_category_id) VALUES (?, ?)", category.getName(), parentId);
-        return getCategoryByName(category.getName()).get();
+        return getCategoryByName(category.getName()).orElse(null);
     }
 
     @Override
-    public Optional<Category> updateCategory(long id, Category newCategory,
-                                             Collection<Category> subcategories) {
-        throw new UnsupportedOperationException();
+    public Optional<Category> updateCategory(Category newCategory) {
+        jdbcTemplate.update("update categories set name = ? where id = ?", newCategory.getName(), newCategory.getId());
+        return getCategoryByName(newCategory.getName());
     }
 
     @Override

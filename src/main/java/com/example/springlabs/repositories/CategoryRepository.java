@@ -1,7 +1,7 @@
 package com.example.springlabs.repositories;
 
 import com.example.springlabs.model.Category;
-import java.util.Collection;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -11,8 +11,7 @@ public interface CategoryRepository {
     Category addCategory(Category category, Long parentId);
 
 
-    Optional<Category> updateCategory(long id, Category newCategory,
-        Collection<Category> subcategories);
+    Optional<Category> updateCategory(Category newCategory);
 
     void deleteCategory(long id);
 

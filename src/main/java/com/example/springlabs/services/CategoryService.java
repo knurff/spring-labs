@@ -33,10 +33,6 @@ public class CategoryService {
       return categoryRepository.addCategory(category, getCategoryByName(categoriesNames).getId());
     }
 
-    public Collection<Category> getSubcategories(List<String> categoriesNames) {
-        return getCategoryByName(categoriesNames).getSubCategories();
-    }
-
   private Optional<Category> getSubcategoryByName(Category category, String name) {
     return category.getSubCategories().stream()
         .filter(subCategory -> subCategory.getName().equals(name))
@@ -60,8 +56,9 @@ public class CategoryService {
 
     public Category updateCategory(List<String> categoriesNames, String stringId,
                                    Category categoryFromDto) {
-      long id = saveParseId(stringId);
-      return categoryRepository.updateCategory(id, categoryFromDto, getSubcategories(categoriesNames))
+      getCategoryByName(categoriesNames);
+      categoryFromDto.setId(saveParseId(stringId));
+      return categoryRepository.updateCategory(categoryFromDto)
               .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(stringId)));
     }
 
