@@ -21,13 +21,14 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public List<Category> getCategories() {
-        return jdbcTemplate.query("select id, name, parent_category_id from categories",
+        return jdbcTemplate.query("select id, name, parent_category_id from categories where parent_category_id IS NULL",
                 (rs, rNum) -> extractCategory(rs));
     }
 
     @Override
-    public void addCategory(Category category) {
-
+    public Category addCategory(Category category, Long parentId) {
+        jdbcTemplate.update("insert into categories(name, parent_category_id) VALUES (?, ?)", category.getName(), parentId);
+        return getCategoryByName(category.getName()).get();
     }
 
     @Override
@@ -37,8 +38,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public void deleteCategory(long id, Collection<Category> subcategories) {
-
+    public void deleteCategory(long id) {
+        jdbcTemplate.update("delete from categories where id = ?", id);
     }
 
     @Override

@@ -26,14 +26,12 @@ public class CategoryService {
   }
 
   public Category addCategory(Category category) {
-    categoryRepository.addCategory(category);
-    return category;
+      return categoryRepository.addCategory(category, null);
   }
 
-  public Category addSubcategory(List<String> categoriesNames, Category categoryFromDto) {
-    getSubcategories(categoriesNames).add(categoryFromDto);
-    return categoryFromDto;
-  }
+    public Category addCategory(Category category, List<String> categoriesNames) {
+      return categoryRepository.addCategory(category, getCategoryByName(categoriesNames).getId());
+    }
 
     public Collection<Category> getSubcategories(List<String> categoriesNames) {
         return getCategoryByName(categoriesNames).getSubCategories();
@@ -67,9 +65,8 @@ public class CategoryService {
               .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(stringId)));
     }
 
-  public void deleteCategory(List<String> categoriesNames, String stringId) {
-      long id = saveParseId(stringId);
-      categoryRepository.deleteCategory(id, getSubcategories(categoriesNames));
+  public void deleteCategory(long id) {
+      categoryRepository.deleteCategory(id);
   }
 
   private long saveParseId(String s) {
