@@ -10,7 +10,6 @@ public interface CategoryRepository {
 
     void addCategory(Category category);
 
-    Category getCategoryById(long id);
 
     Optional<Category> updateCategory(long id, Category newCategory,
         Collection<Category> subcategories);

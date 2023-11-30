@@ -1,0 +1,5 @@
+path.data=src/main/resources/data.json
+path.users=src/main/resources/users.json
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
