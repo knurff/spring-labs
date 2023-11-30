@@ -1,7 +1,3 @@
-drop table products;
-
-drop table categories;
-
 CREATE TABLE categories (
                             id BIGSERIAL PRIMARY KEY,
                             name VARCHAR(55) NOT NULL,
