@@ -45,7 +45,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public Optional<Category> getCategoryByName(String name) {
         return jdbcTemplate.query("select id, name, parent_category_id from categories where name = ?",
-                (ResultSet rs) -> !rs.next() ? Optional.empty() : Optional.of(extractCategory(rs)), name);
+                (ResultSet rs) -> rs.next() ? Optional.of(extractCategory(rs)) : Optional.empty(), name);
     }
 
     private Set<Category> getCategoriesByParentId(long parentId) {
