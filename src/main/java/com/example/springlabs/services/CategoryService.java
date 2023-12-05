@@ -3,6 +3,7 @@ package com.example.springlabs.services;
 import com.example.springlabs.exception.CategoryNotFoundException;
 import com.example.springlabs.model.Category;
 import com.example.springlabs.repositories.CategoryRepository;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,15 +19,16 @@ public class CategoryService {
 
   CategoryRepository categoryRepository;
 
-  String CATEGORY_NAME_NOT_FOUND = "Category with name: %s doesn't exist!";
-  String CATEGORY_ID_NOT_FOUND = "Category with id: %s doesn't exist!";
+    String CATEGORY_NAME_NOT_FOUND = "Category with name: %s doesn't exist!";
+    String CATEGORY_ID_NOT_FOUND = "Category with id: %s doesn't exist!";
 
   public List<Category> getAllCategories() {
-    return categoryRepository.getCategories();
+    return categoryRepository.findAll();
   }
 
-  public Category addCategory(Category category) {
-    categoryRepository.addCategory(category);
+    @Transactional
+    public Category addCategory(Category category) {
+    categoryRepository.save(category);
     return category;
   }
 
@@ -39,11 +41,11 @@ public class CategoryService {
         return getCategoryByName(categoriesNames).getSubCategories();
     }
 
-  private Optional<Category> getSubcategoryByName(Category category, String name) {
-    return category.getSubCategories().stream()
-        .filter(subCategory -> subCategory.getName().equals(name))
-        .findFirst();
-  }
+    private Optional<Category> getSubcategoryByName(Category category, String name) {
+        return category.getSubCategories().stream()
+                .filter(subCategory -> subCategory.getName().equals(name))
+                .findFirst();
+    }
 
     public Category getCategoryByName(List<String> categoriesNamesPath) {
         Optional<Category> parentCategory = categoryRepository.getCategoryByName(categoriesNamesPath.get(0));
@@ -54,31 +56,30 @@ public class CategoryService {
             }
             parentCategory = getSubcategoryByName(parentCategory.get(), categoriesNamesPath.get(i));
         }
-
         return parentCategory.orElseThrow(
                 () -> new CategoryNotFoundException(
                         CATEGORY_NAME_NOT_FOUND.formatted(categoriesNamesPath.get(categoriesNamesPath.size() - 1))));
     }
 
+    @Transactional
     public Category updateCategory(List<String> categoriesNames, String stringId,
                                    Category categoryFromDto) {
-      long id = saveParseId(stringId);
-      return categoryRepository.updateCategory(id, categoryFromDto, getSubcategories(categoriesNames))
-              .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(stringId)));
+        getCategoryByName(categoriesNames);
+        categoryFromDto.setId(saveParseId(stringId));
+        return categoryRepository.save(categoryFromDto);
     }
 
-  public void deleteCategory(List<String> categoriesNames, String stringId) {
-      long id = saveParseId(stringId);
-      categoryRepository.deleteCategory(id, getSubcategories(categoriesNames));
-  }
+    public void deleteCategory(long id) {
+        categoryRepository.deleteCategory(id);
+    }
 
-  private long saveParseId(String s) {
-      try {
-          return Long.parseLong(s);
-      } catch (NumberFormatException e) {
-          throw new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(s), e);
-      }
-  }
+    private long saveParseId(String s) {
+        try {
+            return Long.parseLong(s);
+        } catch (NumberFormatException e) {
+            throw new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(s), e);
+        }
+    }
 
     public Collection<Category> getAllCategories(int page, int size, String name) {
         Collection<Category> categories = getAllCategories().stream().filter(c -> c.getName().contains(name)).toList();
