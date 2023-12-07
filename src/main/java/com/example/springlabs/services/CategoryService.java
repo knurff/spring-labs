@@ -32,9 +32,13 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Optional<Category> addCategory(Category category, List<String> categoriesNames) {
+    public Category addCategory(Category category, List<String> categoriesNames) {
         categoryRepository.insertCategory(category.getName(), getCategoryByName(categoriesNames).getId());
-        return categoryRepository.getCategoryByName(category.getName());
+        Optional<Category> returnedCategory = categoryRepository.getCategoryByName(category.getName());
+        if (returnedCategory.isEmpty()) {
+            throw new CategoryNotFoundException(
+                    CATEGORY_NAME_NOT_FOUND.formatted("Category is empty"));
+        } else return returnedCategory.get();
     }
 
     private Optional<Category> getSubcategoryByName(Category category, String name) {

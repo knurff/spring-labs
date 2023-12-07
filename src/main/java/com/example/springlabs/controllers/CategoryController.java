@@ -90,11 +90,7 @@ public class CategoryController {
     public CategoryDto addSubcategory(HttpServletRequest request,
                                       @RequestBody CategoryDto categoryDto) {
         List<String> urlComponents = getUrlComponents(request);
-        Optional<Category> category = categoryService.addCategory(categoryDtoMapper.createCategoryFromDto(categoryDto), urlComponents);
-        if (category.isEmpty()) {
-            throw new CategoryNotFoundException(
-                    CATEGORY_NAME_NOT_FOUND.formatted("Category is empty"));
-        } else return categoryDtoMapper.createDto(category.get());
+        return categoryDtoMapper.createDto(categoryService.addCategory(categoryDtoMapper.createCategoryFromDto(categoryDto), urlComponents));
     }
 
     @Operation(summary = "Update a category", description = "Updates an existing category.")
