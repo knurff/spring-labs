@@ -32,13 +32,10 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category addCategory(Category category, List<String> categoriesNames) {
-        categoryRepository.insertCategory(category.getName(), getCategoryByName(categoriesNames).getId());
-        Optional<Category> returnedCategory = categoryRepository.getCategoryByName(category.getName());
-        if (returnedCategory.isEmpty()) {
-            throw new CategoryNotFoundException(
-                    CATEGORY_NAME_NOT_FOUND.formatted("Category is empty"));
-        } else return returnedCategory.get();
+    @Transactional
+    public void addSubCategory(Category category, List<String> categoriesNames) {
+        Category parent = getCategoryByName(categoriesNames);
+        parent.getSubCategories().add(category);
     }
 
     private Optional<Category> getSubcategoryByName(Category category, String name) {
@@ -61,16 +58,20 @@ public class CategoryService {
                         CATEGORY_NAME_NOT_FOUND.formatted(categoriesNamesPath.get(categoriesNamesPath.size() - 1))));
     }
 
+    public Category findByName(String name) {
+        return categoryRepository.getCategoryByName(name)
+                .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NAME_NOT_FOUND.formatted(name)));
+    }
+
     @Transactional
-    public Category updateCategory(List<String> categoriesNames, String stringId,
+    public Category updateCategory(String stringId,
                                    Category categoryFromDto) {
-        getCategoryByName(categoriesNames);
         categoryFromDto.setId(saveParseId(stringId));
         return categoryRepository.save(categoryFromDto);
     }
 
     public void deleteCategory(long id) {
-        categoryRepository.deleteCategory(id);
+        categoryRepository.delete(categoryRepository.findById(id));
     }
 
     private long saveParseId(String s) {

@@ -90,7 +90,8 @@ public class CategoryController {
     public CategoryDto addSubcategory(HttpServletRequest request,
                                       @RequestBody CategoryDto categoryDto) {
         List<String> urlComponents = getUrlComponents(request);
-        return categoryDtoMapper.createDto(categoryService.addCategory(categoryDtoMapper.createCategoryFromDto(categoryDto), urlComponents));
+        categoryService.addSubCategory(categoryDtoMapper.createCategoryFromDto(categoryDto), urlComponents);
+        return categoryDtoMapper.createDto(categoryService.findByName(categoryDto.getName()));
     }
 
     @Operation(summary = "Update a category", description = "Updates an existing category.")
@@ -107,8 +108,7 @@ public class CategoryController {
         List<String> urlComponents = new ArrayList<>(getUrlComponents(request));
         String id = urlComponents.remove(urlComponents.size() - 1);
         return categoryDtoMapper.createDto(
-                categoryService.updateCategory(urlComponents, id,
-                        categoryDtoMapper.createCategoryFromDto(categoryDto)));
+                categoryService.updateCategory(id, categoryDtoMapper.createCategoryFromDto(categoryDto)));
     }
 
     @Operation(summary = "Delete a category", description = "Deletes an existing category.")

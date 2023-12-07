@@ -17,8 +17,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query(nativeQuery = true, name = "Categories.getCategoryById")
     Category getCategoryById(@Param("id") Long id);
 
-    // read all - jpa
-    List<Category> findAll();
+    Category findById(long id);
 
     // Delete - @Query
     @Modifying
@@ -29,10 +28,4 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     //getCategoryByName
     @Query(value = "SELECT * FROM categories c WHERE c.name = :name", nativeQuery = true)
     Optional<Category> getCategoryByName(@Param("name") String name);
-
-    //addCategory
-    @Transactional
-    @Modifying
-    @Query(value = "INSERT INTO categories (name, parentCategoryId) VALUES (:name, :parentId)", nativeQuery = true)
-    void insertCategory(@Param("name") String name, @Param("parentId") Long parentId);
 }
