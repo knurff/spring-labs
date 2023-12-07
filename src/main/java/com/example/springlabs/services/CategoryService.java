@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -17,28 +18,23 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CategoryService {
 
-  CategoryRepository categoryRepository;
+    CategoryRepository categoryRepository;
 
     String CATEGORY_NAME_NOT_FOUND = "Category with name: %s doesn't exist!";
     String CATEGORY_ID_NOT_FOUND = "Category with id: %s doesn't exist!";
 
-  public List<Category> getAllCategories() {
-    return categoryRepository.findAll();
-  }
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
+    }
 
     @Transactional
     public Category addCategory(Category category) {
-    categoryRepository.save(category);
-    return category;
-  }
+        return categoryRepository.save(category);
+    }
 
-  public Category addSubcategory(List<String> categoriesNames, Category categoryFromDto) {
-    getSubcategories(categoriesNames).add(categoryFromDto);
-    return categoryFromDto;
-  }
-
-    public Collection<Category> getSubcategories(List<String> categoriesNames) {
-        return getCategoryByName(categoriesNames).getSubCategories();
+    public Optional<Category> addCategory(Category category, List<String> categoriesNames) {
+        categoryRepository.insertCategory(category.getName(), getCategoryByName(categoriesNames).getId());
+        return categoryRepository.getCategoryByName(category.getName());
     }
 
     private Optional<Category> getSubcategoryByName(Category category, String name) {

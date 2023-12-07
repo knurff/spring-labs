@@ -2,6 +2,7 @@ package com.example.springlabs.services;
 
 import com.example.springlabs.model.User;
 import com.example.springlabs.repositories.UserRepository;
+
 import java.util.List;
 
 import jakarta.transaction.Transactional;
