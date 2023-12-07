@@ -23,15 +23,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
 @Tag(name = "Category", description = "Operations related to categories")
@@ -96,8 +88,7 @@ public class CategoryController {
       @RequestBody CategoryDto categoryDto) {
     List<String> urlComponents = getUrlComponents(request);
     return categoryDtoMapper.createDto(
-        categoryService.addSubcategory(urlComponents,
-            categoryDtoMapper.createCategoryFromDto(categoryDto)));
+            categoryService.addCategory(categoryDtoMapper.createCategoryFromDto(categoryDto), urlComponents));
   }
 
   @Operation(summary = "Update a category", description = "Updates an existing category.")
@@ -122,12 +113,10 @@ public class CategoryController {
   @ApiResponses({
           @ApiResponse(responseCode = "204", description = "Category was successfully deleted"),
           @ApiResponse(responseCode = "404", description = "Category is not found by id")})
-  @DeleteMapping("/**")
+  @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void deleteCategory(HttpServletRequest request) {
-    List<String> urlComponents = new ArrayList<>(getUrlComponents(request));
-    String id = urlComponents.remove(urlComponents.size() - 1);
-        categoryService.deleteCategory(urlComponents, id);
+  public void deleteCategory(@PathVariable long id) {
+      categoryService.deleteCategory(id);
   }
 
   private List<String> getUrlComponents(HttpServletRequest request) {
