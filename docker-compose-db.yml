@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  web_db:
+    image: postgres
+    container_name: spring_db
+    environment:
+      - POSTGRES_DB=localdb
+      - POSTGRES_PASSWORD=localdb
+      - POSTGRES_USER=localdb
+    restart: always
+    ports:
+      - '5430:5432'

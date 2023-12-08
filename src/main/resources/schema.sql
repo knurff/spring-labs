@@ -1,6 +1,6 @@
-drop table products;
+drop table if exists products;
 
-drop table categories;
+drop table if exists categories;
 
 CREATE TABLE categories (
                             id BIGSERIAL PRIMARY KEY,
