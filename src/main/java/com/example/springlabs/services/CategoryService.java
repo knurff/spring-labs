@@ -3,10 +3,12 @@ package com.example.springlabs.services;
 import com.example.springlabs.exception.CategoryNotFoundException;
 import com.example.springlabs.model.Category;
 import com.example.springlabs.repositories.CategoryRepository;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -16,34 +18,34 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CategoryService {
 
-  CategoryRepository categoryRepository;
+    CategoryRepository categoryRepository;
 
-  String CATEGORY_NAME_NOT_FOUND = "Category with name: %s doesn't exist!";
-  String CATEGORY_ID_NOT_FOUND = "Category with id: %s doesn't exist!";
+    String CATEGORY_NAME_NOT_FOUND = "Category with name: %s doesn't exist!";
+    String CATEGORY_ID_NOT_FOUND = "Category with id: %s doesn't exist!";
 
-  public List<Category> getAllCategories() {
-    return categoryRepository.getCategories();
-  }
-
-  public Category addCategory(Category category) {
-    categoryRepository.addCategory(category);
-    return category;
-  }
-
-  public Category addSubcategory(List<String> categoriesNames, Category categoryFromDto) {
-    getSubcategories(categoriesNames).add(categoryFromDto);
-    return categoryFromDto;
-  }
-
-    public Collection<Category> getSubcategories(List<String> categoriesNames) {
-        return getCategoryByName(categoriesNames).getSubCategories();
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
     }
 
-  private Optional<Category> getSubcategoryByName(Category category, String name) {
-    return category.getSubCategories().stream()
-        .filter(subCategory -> subCategory.getName().equals(name))
-        .findFirst();
-  }
+    @Transactional
+    public Category addCategory(Category category) {
+        return categoryRepository.save(category);
+    }
+
+    public Category addCategory(Category category, List<String> categoriesNames) {
+        categoryRepository.insertCategory(category.getName(), getCategoryByName(categoriesNames).getId());
+        Optional<Category> returnedCategory = categoryRepository.getCategoryByName(category.getName());
+        if (returnedCategory.isEmpty()) {
+            throw new CategoryNotFoundException(
+                    CATEGORY_NAME_NOT_FOUND.formatted("Category is empty"));
+        } else return returnedCategory.get();
+    }
+
+    private Optional<Category> getSubcategoryByName(Category category, String name) {
+        return category.getSubCategories().stream()
+                .filter(subCategory -> subCategory.getName().equals(name))
+                .findFirst();
+    }
 
     public Category getCategoryByName(List<String> categoriesNamesPath) {
         Optional<Category> parentCategory = categoryRepository.getCategoryByName(categoriesNamesPath.get(0));
@@ -54,31 +56,30 @@ public class CategoryService {
             }
             parentCategory = getSubcategoryByName(parentCategory.get(), categoriesNamesPath.get(i));
         }
-
         return parentCategory.orElseThrow(
                 () -> new CategoryNotFoundException(
                         CATEGORY_NAME_NOT_FOUND.formatted(categoriesNamesPath.get(categoriesNamesPath.size() - 1))));
     }
 
+    @Transactional
     public Category updateCategory(List<String> categoriesNames, String stringId,
                                    Category categoryFromDto) {
-      long id = saveParseId(stringId);
-      return categoryRepository.updateCategory(id, categoryFromDto, getSubcategories(categoriesNames))
-              .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(stringId)));
+        getCategoryByName(categoriesNames);
+        categoryFromDto.setId(saveParseId(stringId));
+        return categoryRepository.save(categoryFromDto);
     }
 
-  public void deleteCategory(List<String> categoriesNames, String stringId) {
-      long id = saveParseId(stringId);
-      categoryRepository.deleteCategory(id, getSubcategories(categoriesNames));
-  }
+    public void deleteCategory(long id) {
+        categoryRepository.deleteCategory(id);
+    }
 
-  private long saveParseId(String s) {
-      try {
-          return Long.parseLong(s);
-      } catch (NumberFormatException e) {
-          throw new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(s), e);
-      }
-  }
+    private long saveParseId(String s) {
+        try {
+            return Long.parseLong(s);
+        } catch (NumberFormatException e) {
+            throw new CategoryNotFoundException(CATEGORY_ID_NOT_FOUND.formatted(s), e);
+        }
+    }
 
     public Collection<Category> getAllCategories(int page, int size, String name) {
         Collection<Category> categories = getAllCategories().stream().filter(c -> c.getName().contains(name)).toList();
